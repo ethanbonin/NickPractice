@@ -24,11 +24,31 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseCell") as! UITableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseCell") as! RoomTableCell
        
-        cell.textLabel?.text = currentRoomNames[indexPath.row]
+        
+        let title = currentRoomNames[indexPath.row]
+        cell.textLabel?.text = title
         
         return cell
+    }
+    
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("You selected", indexPath.row)
+        
+        //Grab cell info
+        let cell = tableView.cellForRow(at: indexPath)
+        let roomName = cell?.textLabel?.text!
+
+        //Start to prepare ViewController
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let destinationVC = storyboard.instantiateViewController(withIdentifier: "InfoScreenVC") as! InfoScreenVC
+        
+        destinationVC.roomName = roomName
+        
+        self.present(destinationVC, animated: true, completion: nil)
     }
 }
 
